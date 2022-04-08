@@ -1,7 +1,6 @@
 
 package gestion;
 
-import java.lang.reflect.Method;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
@@ -15,14 +14,24 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-public class mainmenu extends javax.swing.JFrame {
-
-    public void mostrardatos(DefaultTableModel datagrid) {
+public final class mainmenu extends javax.swing.JFrame {
+    
+        
+    
+    private void mostrardatos() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("CI");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Fecha nacimiento");
+        modelo.addColumn("Fecha de ingreso");
+       
         String consulta = "select * from persona";
-        String cargar[] = new String[3];
+        String cargar[] = new String[5];
         Conexion conectar = new Conexion();
         Connection conn = (Connection) conectar.getConnection();
         ResultSet rs = null;
+        
         
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(consulta);
@@ -32,8 +41,15 @@ public class mainmenu extends javax.swing.JFrame {
             cargar[0] = rs.getString("ci");
             cargar[1] = rs.getString("nombre");
             cargar[2] = rs.getString("apellido");
-            datagrid.addRow(cargar);
+            cargar[3] = rs.getString("fecha_nac");
+            cargar[4] = rs.getString("fecha_ing");
+            
+            modelo.addRow(cargar);
+            
+            
         }
+        datagrid.setModel(modelo);
+        conn.close();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Error: "+ex);
         }
@@ -46,10 +62,10 @@ public class mainmenu extends javax.swing.JFrame {
     public mainmenu(){
         initComponents();
         setSize(900, 700);
-        //gridcon.setSize(300,300);
         setLocationRelativeTo(null);
         setTitle("Menú Principal");
-        
+       
+        mostrardatos();
         
         
         
@@ -115,7 +131,7 @@ public class mainmenu extends javax.swing.JFrame {
             }
         });
 
-        btnpersonas.setText("Trabajar con personas");
+        btnpersonas.setText("Imprimir");
         btnpersonas.setMaximumSize(new java.awt.Dimension(69, 23));
         btnpersonas.setMinimumSize(new java.awt.Dimension(69, 23));
         btnpersonas.setPreferredSize(new java.awt.Dimension(69, 23));
@@ -172,7 +188,7 @@ public class mainmenu extends javax.swing.JFrame {
         panelbuscador.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         panelbuscador.setToolTipText("");
         panelbuscador.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        panelbuscador.setName("                  ");
+        panelbuscador.setName("                  "); // NOI18N
         panelbuscador.setPreferredSize(new java.awt.Dimension(685, 100));
 
         jLabel1.setText("Nombre");
@@ -224,7 +240,7 @@ public class mainmenu extends javax.swing.JFrame {
                 .addGroup(panelbuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
         panelbuscadorLayout.setVerticalGroup(
             panelbuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +255,7 @@ public class mainmenu extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(panelbuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jButton1)))
@@ -319,17 +335,28 @@ public class mainmenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         modificarpersona newFrame = new modificarpersona();
-        newFrame.setVisible(true);
+        int f = datagrid.getSelectedRowCount();
+        if (f == 1){
+        int filaselec = datagrid.getSelectedRow();
+        modificarpersona.txtcimod.setText(datagrid.getValueAt(filaselec, 0).toString());
+        modificarpersona.txtnommod.setText(datagrid.getValueAt(filaselec, 1).toString());
+        modificarpersona.txtapemod.setText(datagrid.getValueAt(filaselec, 2).toString());
+        modificarpersona.txtcimod.setEnabled(false);
+        newFrame.show();       
         this.dispose();
+        } else if(f > 1) {
+                 JOptionPane.showMessageDialog(null, "Seleccione solo a 1 persona");
+        } else {
+            JOptionPane.showMessageDialog(null, "No seleccionó a ninguna persona");
+        }
+        
         
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btnpersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpersonasActionPerformed
         // TODO add your handling code here:
      
-        trabajarconpersonas newFrame = new trabajarconpersonas();
-        newFrame.setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnpersonasActionPerformed
 
     private void btnlogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlogoutActionPerformed

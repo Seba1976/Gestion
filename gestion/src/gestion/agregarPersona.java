@@ -1,8 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gestion;
+import java.util.Calendar;
 import java.util.*;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
@@ -10,23 +7,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import javax.swing.JTextField;
-/**
- *
- * @author Java
- */
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+
+
 public class agregarPersona extends javax.swing.JFrame {
     private PreparedStatement preparedStatement;
+    
 
-    /**
-     * Creates new form agregarPersona
-     */
     public agregarPersona() {
         initComponents();
         setSize(600, 500);
         setLocationRelativeTo(null);
         setTitle("Agregar Persona");
-        
+        TextPrompt ci = new TextPrompt("12345678", txtciadd);
+        TextPrompt textnom1 = new TextPrompt("Nombre", txtnombreadd);
+        TextPrompt textnom2 = new TextPrompt("Segundo Nombre", txtnom2add);
+        TextPrompt textape1 = new TextPrompt("Apellido", txtapellidoadd);
+        TextPrompt textape2 = new TextPrompt("Segundo Apeliido", txtapellido2add);    
     }
 
     /**
@@ -50,7 +54,6 @@ public class agregarPersona extends javax.swing.JFrame {
         txtnom2add = new javax.swing.JTextField();
         txtapellido2add = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtfechaadd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -59,6 +62,13 @@ public class agregarPersona extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         btnagregar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jdt1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,48 +127,20 @@ public class agregarPersona extends javax.swing.JFrame {
 
         jLabel6.setText("Agregar Persona");
 
+        jLabel7.setText("Correo:");
+
+        jLabel8.setText("Celular:");
+
+        jLabel9.setText("Dirección:");
+
+        jdt1.setMinSelectableDate(new java.util.Date(-62135755128000L));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblprinom)
-                                    .addComponent(lblciagregar)
-                                    .addComponent(lblpriapellido)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtapellidoadd, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                            .addComponent(txtnombreadd, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtciadd, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtfechaadd))
-                        .addGap(55, 55, 55)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtnom2add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnagregar)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel2))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtapellido2add)
-                                        .addComponent(jComboBox1, 0, 98, Short.MAX_VALUE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)
@@ -168,8 +150,48 @@ public class agregarPersona extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(261, 261, 261)
-                        .addComponent(jLabel6)))
-                .addContainerGap(155, Short.MAX_VALUE))
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblprinom)
+                                        .addComponent(lblciagregar)
+                                        .addComponent(lblpriapellido)))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jLabel3))))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jdt1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField2)
+                            .addComponent(txtapellidoadd)
+                            .addComponent(txtnombreadd)
+                            .addComponent(txtciadd))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnagregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel9))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1)
+                                    .addComponent(jTextField3)
+                                    .addComponent(txtnom2add, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtapellido2add)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(157, 157, 157))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,39 +201,51 @@ public class agregarPersona extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblciagregar)
-                    .addComponent(txtciadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtciadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtnom2add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblprinom)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtnombreadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtnom2add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel2)
+                        .addComponent(txtapellido2add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtapellido2add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
                     .addComponent(txtapellidoadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblpriapellido))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblpriapellido)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel3)
-                    .addComponent(txtfechaadd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel4))
-                        .addGap(23, 23, 23))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(btnagregar))
-                .addGap(173, 173, 173))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton1)
+                                    .addComponent(jLabel4))
+                                .addGap(23, 23, 23))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(btnagregar))
+                        .addGap(173, 173, 173))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jdt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -230,26 +264,56 @@ public class agregarPersona extends javax.swing.JFrame {
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
         // TODO add your handling code here:
-        int numero = Integer.parseInt(txtciadd.getText());
-        String insert = "insert into persona (ci, nombre, apellido) values (?,?,?)";
-        try {
-            Conexion conectar = new Conexion();
-            Connection conn = (Connection) conectar.getConnection();
-            preparedStatement = conn.prepareStatement(insert);
-            preparedStatement.setInt(1, +numero);
-            preparedStatement.setString(2, txtnombreadd.getText());
-            preparedStatement.setString(3, txtapellidoadd.getText());
-            
-            preparedStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Se agrego correctamente");
-           conn.close();
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error: "+ex);
-        }
+        //*Verifica que los campos requeridos no esten vacíos
+        if (txtciadd.getText().length() != 0 && txtnombreadd.getText().length() != 0 && txtapellidoadd.getText().length() != 0){
+            //*Crea la consulta a realizar y toma los datos de jdatechoser, el apartado
+            //
+            int numero = Integer.parseInt(txtciadd.getText());
+            String insert = "insert into persona (ci, nombre, apellido,fecha_nac, fecha_ing,edad) values (?,?,?,?,?,?)";
+            DateTimeFormatter fecha_ingreso = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
+            int a = (jdt1.getCalendar().get(Calendar.MONTH) + 1;
+            String dia = Integer.toString(jdt1.getCalendar().get(Calendar.DATE));
+            String mes = Integer.toString(jdt1.getCalendar().get(Calendar.MONTH));
+            String año = Integer.toString(jdt1.getCalendar().get(Calendar.YEAR));
+            String fechanac = (año + "-" + mes + "-" + dia);
+
+            //*Toma los datos de jdatechooser(fecha de nacimiento) y los datos y calcula la edad
+            Date date = new Date();
+            ZoneId timeZone = ZoneId.systemDefault();
+            LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
+            int diff_año =  getLocalDate.getYear() - Integer.parseInt(año);
+            int diff_mes =  getLocalDate.getMonthValue() - Integer.parseInt(mes);
+            int diff_dia =  getLocalDate.getDayOfMonth() - Integer.parseInt(dia); 
+            if(diff_mes<0 ||(diff_mes==0 && diff_dia<0)){
+                diff_año =diff_año-1;
+            }
         
-        mainmenu newFrame = new mainmenu();
-        newFrame.setVisible(true);
-        this.dispose();
+        
+            try {
+                Conexion conectar = new Conexion();
+                Connection conn = (Connection) conectar.getConnection();
+                preparedStatement = conn.prepareStatement(insert);
+                preparedStatement.setInt(1, numero);
+                preparedStatement.setString(2, txtnombreadd.getText());
+                preparedStatement.setString(3, txtapellidoadd.getText());
+                preparedStatement.setString(4, fechanac);
+                preparedStatement.setObject(5, fecha_ingreso.format(LocalDateTime.now()));
+                preparedStatement.setInt(6, diff_año);
+                preparedStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Se agrego correctamente");
+                preparedStatement.close();
+                conn.close();
+                mainmenu newFrame = new mainmenu();
+                newFrame.setVisible(true);
+                this.dispose();
+            }catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error: "+ex);
+            }
+            }else {
+                JOptionPane.showMessageDialog(null, "Debe llenar los campos vacios");
+            }
+
+        
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtnom2addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnom2addActionPerformed
@@ -316,15 +380,21 @@ public class agregarPersona extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private com.toedter.calendar.JDateChooser jdt1;
     private javax.swing.JLabel lblciagregar;
     private javax.swing.JLabel lblpriapellido;
     private javax.swing.JLabel lblprinom;
     private javax.swing.JTextField txtapellido2add;
     private javax.swing.JTextField txtapellidoadd;
     private javax.swing.JTextField txtciadd;
-    private javax.swing.JTextField txtfechaadd;
     private javax.swing.JTextField txtnom2add;
     private javax.swing.JTextField txtnombreadd;
     // End of variables declaration//GEN-END:variables
